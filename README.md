@@ -20,9 +20,9 @@
 | [14. Таблица умножения](./contest_01/contest14.go) | ![](./img/go.png) |
 | [15. RLE сжатие](./contest_01/contest15.cpp) | ![](./img/cpp.png) |
 | [16. Сглаживание графика Погоды](./contest_01/contest16.go) | ![](./img/go.png) |
-| [17. Дождь над островом](./contest_01/contest17.go) | ![](./img/cpp.png) |
-| [18. Заголовок столбца Excel](./contest_01/contest18.go) | ![](./img/cpp.png) |
-| [19. Подходящие Слова](./contest_01/contest19.go) | ![](./img/cpp.png) |
+| [17. Дождь над островом](./contest_01/contest17.cpp) | ![](./img/cpp.png) |
+| [18. Заголовок столбца Excel](./contest_01/contest18.cpp) | ![](./img/cpp.png) |
+| [19. Подходящие Слова](./contest_01/contest19.cpp) | ![](./img/cpp.png) |
 | [20. Анаграмма. 2 числа](./contest_01/contest20.cpp) | ![](./img/cpp.png) |
 
 
