@@ -45,7 +45,7 @@
 
 |[Контест 3](https://contest.yandex.ru/contest/53504/problems/) |  |
 | --- | :-: |
-| [1. Функция. Простое число](./contest_02/01/main.cpp) | ![](./img/cpp.png) |
+| [1. Объединить отсортированные последовательности](./contest_02/01/main.cpp) | ![](./img/cpp.png) |
 | [2. Функция. Выход из лабиринта](./contest_02/02/main.cpp) |  ![](./img/cpp.png) |
 | [3. Функция. Сортировка по количеству единиц](./contest_02/03/main.cpp) | ![](./img/cpp.png) |
 | [4. Функция. Сумма дробей](./contest_02/04/main.cpp) |  ![](./img/cpp.png) |
