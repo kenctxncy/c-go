@@ -54,3 +54,11 @@
 | [7. Какое следующее слово](./contest_02/07/main.cpp) |  ![](./img/cpp.png) |
 | [8. Уникальное число](./contest_02/08/main.go) |  ![](./img/go.png) |
 | [9. Подходящая пара чисел](./contest_02/09/main.go) |  ![](./img/go.png) |
+
+
+|[Контест 4](https://contest.yandex.ru/contest/54625/problems/) |  |
+| --- | :-: |
+| [1. Количество выполненных задач](./contest_02/01/main.cpp) | ![](./img/go.png) |
+| [2. Количество выполненных задач](./contest_02/02/main.cpp) |  ![](./img/cpp.png) |
+| [3. Титаник](./contest_02/03/main.cpp) | ![](./img/go.png) |
+| [4. Титаник](./contest_02/04/main.cpp) |  ![](./img/cpp.png) |
