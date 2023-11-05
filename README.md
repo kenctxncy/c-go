@@ -46,21 +46,21 @@
 
 |[Контест 3](https://contest.yandex.ru/contest/53504/problems/) |  |
 | --- | :-: |
-| [1. Объединить отсортированные последовательности](./contest_02/3contest1.cpp) | ![](./img/cpp.png) |
-| [2. Валидатор скобочной последовательности](./contest_02/3contest2.cpp) |  ![](./img/cpp.png) |
-| [3. Обратная польская нотация](./contest_02/3contest3.cpp) | ![](./img/cpp.png) |
-| [4. Общие слова в последовательностях](./contest_02/3contest4.cpp) |  ![](./img/cpp.png) |
-| [5. Самое частое слово](./contest_02/3contest5.cpp) |  ![](./img/cpp.png) |
-| [6. Баланс пользователя](./contest_02/3contest6.cpp) |  ![](./img/cpp.png) |
-| [7. Какое следующее слово](./contest_02/3contest7.cpp) |  ![](./img/cpp.png) |
-| [8. Уникальное число](./contest_02/3contest8.go) |  ![](./img/go.png) |
-| [9. Подходящая пара чисел](./contest_02/3contest9.go) |  ![](./img/go.png) |
+| [1. Объединить отсортированные последовательности](./contest_03/3contest1.cpp) | ![](./img/cpp.png) |
+| [2. Валидатор скобочной последовательности](./contest_03/3contest2.cpp) |  ![](./img/cpp.png) |
+| [3. Обратная польская нотация](./contest_03/3contest3.cpp) | ![](./img/cpp.png) |
+| [4. Общие слова в последовательностях](./contest_03/3contest4.cpp) |  ![](./img/cpp.png) |
+| [5. Самое частое слово](./contest_03/3contest5.cpp) |  ![](./img/cpp.png) |
+| [6. Баланс пользователя](./contest_03/3contest6.cpp) |  ![](./img/cpp.png) |
+| [7. Какое следующее слово](./contest_03/3contest7.cpp) |  ![](./img/cpp.png) |
+| [8. Уникальное число](./contest_03/3contest8.go) |  ![](./img/go.png) |
+| [9. Подходящая пара чисел](./contest_03/3contest9.go) |  ![](./img/go.png) |
 
 
 
 |[Контест 4](https://contest.yandex.ru/contest/54625/problems/) |  |
 | --- | :-: |
-| [1. Количество выполненных задач](./contest_02/4contest1.go) | ![](./img/go.png) |
-| [2. Количество выполненных задач](./contest_02/4contest2.cpp) |  ![](./img/cpp.png) |
-| [3. Титаник](./contest_02/4contest3.go) | ![](./img/go.png) |
-| [4. Титаник](./contest_02/4contest4.cpp) |  ![](./img/cpp.png) |
+| [1. Количество выполненных задач](./contest_04/4contest1.go) | ![](./img/go.png) |
+| [2. Количество выполненных задач](./contest_04/4contest2.cpp) |  ![](./img/cpp.png) |
+| [3. Титаник](./contest_04/4contest3.go) | ![](./img/go.png) |
+| [4. Титаник](./contest_04/4contest4.cpp) |  ![](./img/cpp.png) |
