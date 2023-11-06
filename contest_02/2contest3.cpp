@@ -1,7 +1,7 @@
-﻿//#include <iostream>
-//#include <algorithm>
-//#include <vector>
-//#include <string>
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <string>
 
 bool compare(std::string x, std::string y){
     if (count(x.begin(), x.end(), '1') != count(y.begin(), y.end(), '1')) {
@@ -12,14 +12,14 @@ bool compare(std::string x, std::string y){
     }
 }
 
-//int main() {
-//    int count;
-//    std::cin >> count;
-//
-//    std::vector<std::string> nums(count);
-//    for (auto& line : nums) std::cin >> line;
-//
-//    std::sort(nums.begin(), nums.end(), compare);
-//
-//    for (auto& line : nums) std::cout << line << ' ';
-//}
+int main() {
+    int count;
+    std::cin >> count;
+
+    std::vector<std::string> nums(count);
+    for (auto& line : nums) std::cin >> line;
+
+    std::sort(nums.begin(), nums.end(), compare);
+
+    for (auto& line : nums) std::cout << line << ' ';
+}
