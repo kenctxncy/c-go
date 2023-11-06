@@ -13,7 +13,7 @@
 | [7. Максимум из двух чисел](./contest_01/contest7.cpp) | ![](./img/cpp.png) |
 | [8. Максимум из трёх чисел](./contest_01/contest8.go) | ![](./img/go.png) |
 | [9. Длина гипотенузы](./contest_01/contest9.cpp) | ![](./img/cpp.png) |
-| [10. Дерево решений](./contest_01/contest10.cpp) | ![](./img/go.png) |
+| [10. Дерево решений](./contest_01/contest10.go) | ![](./img/go.png) |
 | [11. Ближайшая из трёх точек](./contest_01/contest11.cpp) | ![](./img/cpp.png) |
 | [12. Гипотеза Коллатца](./contest_01/contest12.go) |  ![](./img/go.png) |
 | [13. Вывод чисел волнами](./contest_01/contest13.cpp) | ![](./img/cpp.png) |
