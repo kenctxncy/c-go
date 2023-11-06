@@ -62,5 +62,5 @@
 | --- | :-: |
 | [1. Количество выполненных задач](./contest_04/4contest1.go) | ![](./img/go.png) |
 | [2. Количество выполненных задач](./contest_04/4contest2.cpp) |  ![](./img/cpp.png) |
-| [3. Титаник](./contest_04/4contest3.go) | ![](./img/go.png) |
-| [4. Титаник](./contest_04/4contest4.cpp) |  ![](./img/cpp.png) |
+| [3. Титаник](./contest_04/4contest3.cpp) | ![](./img/cpp.png) |
+| [4. Титаник](./contest_04/4contest4.go) |  ![](./img/go.png) |
