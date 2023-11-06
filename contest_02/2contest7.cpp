@@ -95,88 +95,11 @@ void print(std::vector<Student> students) {
 
     }
 }
-//#include <sstream>
-//Student make_student(const std::string& line) {
-//    std::istringstream iss(line);
-//    Student student;
-//    std::getline(iss, student.name, ';');
-//    std::getline(iss, student.group, ';');
-//
-//    std::string course_data;
-//    while (std::getline(iss, course_data, ';')) {
-//        Course course;
-//        std::istringstream course_stream(course_data);
-//        std::getline(course_stream, course.name, ' ');
-//        std::string semester_str, finished_str;
-//        std::getline(course_stream, semester_str, ' ');
-//        std::getline(course_stream, finished_str, ' ');
-//
-//        // Add error handling for std::stoi
-//        try {
-//            course.semester = std::stoi(semester_str);
-//        }
-//        catch (const std::invalid_argument& e) {
-//            // Handle the error (e.g., print an error message or set a default value)
-//            std::cerr << "Error: Invalid semester value - " << semester_str << std::endl;
-//            // You can set a default value or take appropriate action here.
-//            // For example, you can set course.semester = 0 or skip this course.
-//            continue; // Skip this course and continue with the next one.
-//        }
-//
-//        course.finished = (finished_str == "1");
-//        student.courses.push_back(course);
-//    }
-//
-//    return student;
-//}
-//
-//// Function to compare two students for sorting
-//bool is_upper(const Student& first, const Student& second) {
-//    if (first.group != second.group) {
-//        return first.group < second.group;
-//    }
-//    else {
-//        return first.name < second.name;
-//    }
-//}
-//
-//// Function to check if a student is a debtor
-//bool is_debtor(const Student& student, int cur_semester, int max_debt) {
-//    int debt = 0;
-//
-//    for (const Course& course : student.courses) {
-//        if (course.semester <= cur_semester && !course.finished) {
-//            debt++;
-//        }
-//    }
-//
-//    return debt > max_debt;
-//}
-//
-//// Function to print the list of students
-//void print(const std::vector<Student>& students) {
-//    if (students.empty()) {
-//        std::cout << "Empty list!" << std::endl;
-//        return;
-//    }
-//
-//    std::string current_group = students[0].group;
-//    std::cout << current_group << std::endl;
-//
-//    for (const Student& student : students) {
-//        if (student.group != current_group) {
-//            current_group = student.group;
-//            std::cout << current_group << std::endl;
-//        }
-//        std::cout << "- " << student.name << std::endl;
-//    }
-//}
 
 int main() {
     int cur_semester, max_debt, stud_count;
     std::cin >> stud_count >> cur_semester >> max_debt;
-    std::cin.ignore(1); // Remove the \n character from the stream for getline to work correctly
-
+    std::cin.ignore(1);
     std::vector<Student> students(stud_count);
     for (auto& student : students) {
         std::string line;
