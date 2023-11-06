@@ -7,7 +7,7 @@
 | [1. Приближенное значение Пи](./contest_01/contest1.cpp) | ![](./img/cpp.png) |
 | [2. Кислород](./contest_01/contest2.go) |  ![](./img/go.png) |
 | [3. Частное](./contest_01/contest3.cpp) | ![](./img/cpp.png) |
-| [3. Произведение](./contest_01/contest4.go) | ![](./img/go.png) |
+| [4. Произведение](./contest_01/contest4.go) | ![](./img/go.png) |
 | [5. Индекс массы тела](./contest_01/contest5.cpp) | ![](./img/cpp.png) |
 | [6. Банкомат](./contest_01/contest6.go) | ![](./img/go.png) |
 | [7. Максимум из двух чисел](./contest_01/contest7.cpp) | ![](./img/cpp.png) |
