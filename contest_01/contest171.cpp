@@ -37,3 +37,4 @@ int main() {
 
     return 0;
 }
+//needed to change int to long long int (skill issue) also this is a slightly better version of code that I had in contest
