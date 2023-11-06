@@ -1,18 +1,9 @@
-﻿//Complex make_complex(const std::string& num) {
-//    std::stringstream ss(num);
-//    Complex c;
-//    ss >> c.re >> c.im;
-//    return c;
-//}
-
-
 #include <iostream>
 
 struct Complex {
     double re;  // Действительная часть
     double im;  // Мнимая часть
 };
-
 
 
 #include <cmath>
@@ -94,18 +85,18 @@ void print(Complex c) {
 
 }
 
-//void print(const Complex& c) {
-//    if (c.re != 0 && c.im != 0) {
-//        std::cout << c.re;
-//        if (c.im > 0) {
-//            std::cout << "+";
-//        }
-//        std::cout << c.im << "j" << std::endl;
-//    } else if (c.re == 0 && c.im != 0) {
-//        std::cout << c.im << "j" << std::endl;
-//    } else if (c.re != 0 && c.im == 0) {
-//        std::cout << c.re << std::endl;
-//    } else {
-//        std::cout << "0" << std::endl;
-//    }
-//}
+
+int main()
+{
+    std::string num;
+    std::getline(std::cin, num, 'j');
+    Complex c1 = make_complex(num);
+    
+    std::getline(std::cin, num, 'j');
+    Complex c2 = make_complex(num);
+    
+    print(sum(c1, c2));
+    print(sub(c1, c2));
+    print(mul(c1, c2));
+    print(div(c1, c2));
+}
