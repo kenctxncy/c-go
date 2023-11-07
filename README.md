@@ -74,3 +74,5 @@
 | [4. Класс. Point](./contest_05/5contest4.cpp) |  ![](./img/cpp.png) |
 | [5. Класс. Большое целое число](./contest_05/5contest5.cpp) |  ![](./img/cpp.png) |
 | [6. Get a cat](./contest_05/5contest6.go) |  ![](./img/go.png) |
+| [7. Класс. Чайник](./contest_05/5contest7.go) |  ![](./img/go.png) |
+
