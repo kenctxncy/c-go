@@ -68,9 +68,9 @@
 
 |[Контест 5](https://contest.yandex.ru/contest/55465/problems/) |  |
 | --- | :-: |
-| [1. Объединить отсортированные последовательности](./contest_05/5contest1.cpp) | ![](./img/cpp.png) |
-| [2. Валидатор скобочной последовательности](./contest_05/5contest2.cpp) |  ![](./img/cpp.png) |
-| [3. Обратная польская нотация](./contest_05/5contest3.cpp) | ![](./img/cpp.png) |
-| [4. Общие слова в последовательностях](./contest_05/5contest4.cpp) |  ![](./img/cpp.png) |
-| [5. Самое частое слово](./contest_05/5contest5.cpp) |  ![](./img/cpp.png) |
-| [6. Баланс пользователя](./contest_05/5contest6.go) |  ![](./img/go.png) |
+| [1. Get a cat](./contest_05/5contest1.cpp) | ![](./img/cpp.png) |
+| [2. Класс. Чайник](./contest_05/5contest2.cpp) |  ![](./img/cpp.png) |
+| [3. Класс. Комплексное число](./contest_05/5contest3.cpp) | ![](./img/cpp.png) |
+| [4. Класс. Point](./contest_05/5contest4.cpp) |  ![](./img/cpp.png) |
+| [5. Класс. Большое целое число](./contest_05/5contest5.cpp) |  ![](./img/cpp.png) |
+| [6. Get a cat](./contest_05/5contest6.go) |  ![](./img/go.png) |
