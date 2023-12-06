@@ -21,7 +21,7 @@ public:
     }
 
     friend std::ostream& operator<<(std::ostream& out, Employee& dude) {
-        out << dude.name << " (" << dude.position << "): " << dude.total_cash(bonuses[dude.position]);
+        out << dude.name << " (" << dude.position << "): " << dude.total_cash(bonuses[dude.position]); //AXAXHADGHAHDHAXHAXHAXHAXHAXHAHXAHXAHXHAXHAXAHFVHASBCVHADBS FKJAS ASBD<A D AD A<D AGUFD AIBFDSLJASDLJK AS AAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAAAAAAAAAAA ANXKBAJVXHJAVJXHSV JHJHXAJXJAHSBXJHAS  AXAXAXAXANXHABXHBJWS CXAMNS XBAS JV SAJX AS XM ASXKASXJHASJXASJBX
         return out;
     }
 
