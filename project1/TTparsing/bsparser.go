@@ -3,10 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"time"
-
-	"github.com/tealeg/xlsx"
+	"github.com/xuri/excelize/v2"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -18,105 +15,66 @@ func checkErr(err error) {
 }
 
 type Schedule struct {
-	GroupId string     `bson:"group_name"`
-	Weeks   WeekSlices `bson:"weeks"`
+	Group   string
+	Week    string
+	Day     string
+	Lessons []Lesson
 }
 
-type ScheduleItem struct {
-	Day        string `bson:"day"`
-	LessonType string `bson:"lesson_type"`
-	Subject    string `bson:"subject"`
-	Teacher    string `bson:"teacher"`
-	Room       string `bson:"room"`
-	Comment    string `bson:"comment"`
-}
-
-type WeekSlices struct {
-	OddWk  []ScheduleItem `bson:"odd_week"`
-	EvenWk []ScheduleItem `bson:"even_week"`
+type Lesson struct {
+	Number  string
+	Type    string
+	Name    string
+	Teacher string
+	Room    string
+	Comment string
 }
 
 func main() {
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
-	opts := options.Client().ApplyURI(url.QueryEscape("mongodb+srv://admin:9af0m3B7KyRdYdyR@endlesssuffering.skte9xw.mongodb.net/?retryWrites=true&w=majority")).SetServerAPIOptions(serverAPI)
-
-	fmt.Println("Pinged your deployment. You successfully connected to MongoDB!")
+	opts := options.Client().ApplyURI("mongodb+srv://admin:9af0m3B7KyRdYdyR@endlesssuffering.skte9xw.mongodb.net/?retryWrites=true&w=majority").SetServerAPIOptions(serverAPI)
 
 	// Parsing starts
-	ExcelBS, err := xlsx.OpenFile("TTresources/cfuvtable.xlsx")
+	ExcelBS, err := excelize.OpenFile("TTresources/cfuvtable1.xlsx")
 	checkErr(err)
 
-	sched := Schedule{}
+	cols, err := ExcelBS.GetCols("course1")
+	checkErr(err)
+	//connection
+	client, err := mongo.Connect(context.TODO(), opts)
+	checkErr(err)
 
-	groupnameCell := ExcelBS.Sheets[0].Row(0).Cells[0]
-	sched.GroupId = groupnameCell.String()
+	collection := client.Database("endlesssuffering").Collection("schedules")
+	//connection
+	fmt.Println("Pinged your deployment. You successfully connected to MongoDB!")
+	var schedule Schedule
 
-	oddweeks := []ScheduleItem{}
-	oddweeksStart := 4
-	oddweeksEnd := 16
-	for row := oddweeksStart; row <= oddweeksEnd; row++ {
-		dayCell := ExcelBS.Sheets[0].Row(row).Cells[1]
-		lessontypeCell := ExcelBS.Sheets[0].Row(row).Cells[2]
-		subjectCell := ExcelBS.Sheets[0].Row(row).Cells[3]
-		teacherCell := ExcelBS.Sheets[0].Row(row).Cells[4]
-		roomCell := ExcelBS.Sheets[0].Row(row).Cells[5]
-		commentCell := ExcelBS.Sheets[0].Row(row).Cells[6]
-
-		item := ScheduleItem{
-			Day:        dayCell.String(),
-			LessonType: lessontypeCell.String(),
-			Subject:    subjectCell.String(),
-			Teacher:    teacherCell.String(),
-			Room:       roomCell.String(),
-			Comment:    commentCell.String(),
+	for _, col := range cols {
+		lessons := []Lesson{}
+		for i := 3; i <= 39; i += 6 {
+			lessons = append(lessons, Lesson{
+				Number:  col[i],
+				Type:    col[i+1],
+				Name:    col[i+2],
+				Teacher: col[i+3],
+				Room:    col[i+4],
+				Comment: col[i+5],
+			})
 		}
-		oddweeks = append(oddweeks, item)
-	}
-
-	evenweeks := []ScheduleItem{}
-	evenweeksStart := 18
-	evenweeksEnd := 30
-	for row := evenweeksStart; row <= evenweeksEnd; row++ {
-		dayCell := ExcelBS.Sheets[0].Row(row).Cells[1]
-		lessontypeCell := ExcelBS.Sheets[0].Row(row).Cells[2]
-		subjectCell := ExcelBS.Sheets[0].Row(row).Cells[3]
-		teacherCell := ExcelBS.Sheets[0].Row(row).Cells[4]
-		roomCell := ExcelBS.Sheets[0].Row(row).Cells[5]
-		commentCell := ExcelBS.Sheets[0].Row(row).Cells[6]
-
-		item := ScheduleItem{
-			Day:        dayCell.String(),
-			LessonType: lessontypeCell.String(),
-			Subject:    subjectCell.String(),
-			Teacher:    teacherCell.String(),
-			Room:       roomCell.String(),
-			Comment:    commentCell.String(),
+		schedule = Schedule{
+			Group:   col[0],
+			Week:    col[1],
+			Day:     col[2],
+			Lessons: lessons,
 		}
-		evenweeks = append(evenweeks, item)
+
+		// Parsing ends here
+		// Saving
+		_, err = collection.InsertOne(context.TODO(), schedule)
+		checkErr(err)
 	}
-
-	sched.Weeks = WeekSlices{
-		OddWk:  oddweeks,
-		EvenWk: evenweeks,
-	}
-	// Parsing ends here
-
-	// Saving to MongoDB
-	client, err := mongo.Connect(context.Background(), opts)
-	checkErr(err)
-
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-
-	collection := client.Database("endlesssuffering").Collection("schedule")
-
-	// Saving
-	_, err = collection.InsertOne(ctx, sched)
-	checkErr(err)
 
 	// Disconnect
-	err = client.Disconnect(ctx)
-	if err != nil {
-		fmt.Println("Error disconnecting from MongoDB:", err)
-	}
+	err = client.Disconnect(context.TODO())
+	checkErr(err)
 }
