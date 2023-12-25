@@ -3,6 +3,9 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
+	"github.com/golang-jwt/jwt/v5"
+	"github.com/xuri/excelize/v2"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -36,8 +39,45 @@ type Lesson struct {
 	Comment string
 }
 
+// querystruct
+type UpdateCommentInput struct {
+	Group   string
+	Week    string
+	Day     string
+	Number  string
+	Comment string
+}
+
+const mySigningKey = "POMOGITE33333333333333"
+
+func isAuthorized(endpoint func(http.ResponseWriter, *http.Request)) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+		if r.Header["Token"] != nil {
+
+			token, err := jwt.Parse(r.Header["Token"][0], func(token *jwt.Token) (interface{}, error) {
+				if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+					return nil, fmt.Errorf("Error")
+				}
+				return []byte(mySigningKey), nil
+			})
+			checkErr(err)
+
+			if token.Valid {
+				endpoint(w, r)
+			}
+		} else {
+			fmt.Fprintf(w, "Not Authorized")
+		}
+	})
+}
+
+func testEndpoint(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Ping pong")
+}
+
 // the schedule (already in bd) (+ mozhno reraitnut cherez zapros)
-/*func handleSchedule(w http.ResponseWriter, r *http.Request) {
+func handleSchedule(w http.ResponseWriter, r *http.Request) {
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
 	opts := options.Client().ApplyURI("mongodb+srv://admin:9af0m3B7KyRdYdyR@endlesssuffering.skte9xw.mongodb.net/?retryWrites=true&w=majority").SetServerAPIOptions(serverAPI)
 
@@ -77,14 +117,15 @@ type Lesson struct {
 
 		// Parsing ends here
 		// Saving
-		_, err = collection.InsertOne(context.TODO(), schedule)
+		filter := bson.M{"group": schedule.Group, "week": schedule.Week, "day": schedule.Day}
+		_, err = collection.ReplaceOne(context.TODO(), filter, schedule)
 		checkErr(err)
 	}
 
 	// Disconnect
 	err = client.Disconnect(context.TODO())
 	checkErr(err)
-}*/
+}
 
 // http queries moment
 func getSchedule(w http.ResponseWriter, r *http.Request) {
@@ -120,8 +161,34 @@ func getSchedule(w http.ResponseWriter, r *http.Request) {
 	checkErr(err)
 }
 
+func updateComment(w http.ResponseWriter, r *http.Request) {
+	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
+	opts := options.Client().ApplyURI("mongodb+srv://admin:9af0m3B7KyRdYdyR@endlesssuffering.skte9xw.mongodb.net/?retryWrites=true&w=majority").SetServerAPIOptions(serverAPI)
+	client, err := mongo.Connect(context.TODO(), opts)
+	checkErr(err)
+
+	collection := client.Database("endlesssuffering").Collection("schedules")
+
+	var input UpdateCommentInput
+	err = json.NewDecoder(r.Body).Decode(&input)
+	checkErr(err)
+	//onlygodknowshowthatabominationworks
+	filter := bson.M{"group": input.Group, "week": input.Week, "day": input.Day}
+	update := bson.M{"$set": bson.M{"lessons.$[elem].comment": input.Comment}}
+
+	arrayFilter := options.ArrayFilters{}
+	arrayFilter.Filters = append(arrayFilter.Filters, bson.M{"elem.number": input.Number})
+
+	updateOptions := options.UpdateOptions{ArrayFilters: &arrayFilter}
+
+	_, err = collection.UpdateOne(context.TODO(), filter, update, &updateOptions)
+	checkErr(err)
+}
+
 func main() {
-	/*	http.HandleFunc("/api/schedule", handleSchedule)*/
+	http.Handle("/", isAuthorized(testEndpoint))
+	http.HandleFunc("/api/schedule", handleSchedule)
 	http.HandleFunc("/api/getSchedule", getSchedule)
+	http.HandleFunc("/api/updateComment", updateComment)
 	http.ListenAndServe(":8080", nil)
 }
