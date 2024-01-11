@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/robfig/cron/v3"
 	"github.com/xuri/excelize/v2"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -50,6 +51,7 @@ type UpdateCommentInput struct {
 
 const mySigningKey = "POMOGITE33333333333333"
 
+// jwt
 func isAuthorized(endpoint func(http.ResponseWriter, *http.Request)) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
@@ -167,21 +169,116 @@ func updateComment(w http.ResponseWriter, r *http.Request) {
 	client, err := mongo.Connect(context.TODO(), opts)
 	checkErr(err)
 
+	group := r.URL.Query().Get("group")
+	week := r.URL.Query().Get("week")
+	day := r.URL.Query().Get("day")
+	number := r.URL.Query().Get("number")
+	comment := r.URL.Query().Get("comment")
+
 	collection := client.Database("endlesssuffering").Collection("schedules")
 
-	var input UpdateCommentInput
-	err = json.NewDecoder(r.Body).Decode(&input)
-	checkErr(err)
 	//onlygodknowshowthatabominationworks
-	filter := bson.M{"group": input.Group, "week": input.Week, "day": input.Day}
-	update := bson.M{"$set": bson.M{"lessons.$[elem].comment": input.Comment}}
+	filter := bson.M{"group": group, "week": week, "day": day}
+	update := bson.M{"$set": bson.M{"lessons.$[elem].comment": comment}}
 
 	arrayFilter := options.ArrayFilters{}
-	arrayFilter.Filters = append(arrayFilter.Filters, bson.M{"elem.number": input.Number})
+	arrayFilter.Filters = append(arrayFilter.Filters, bson.M{"elem.number": number})
 
 	updateOptions := options.UpdateOptions{ArrayFilters: &arrayFilter}
 
 	_, err = collection.UpdateOne(context.TODO(), filter, update, &updateOptions)
+	checkErr(err)
+}
+
+func getTeacherRoom(w http.ResponseWriter, r *http.Request) {
+	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
+	opts := options.Client().ApplyURI("mongodb+srv://admin:9af0m3B7KyRdYdyR@endlesssuffering.skte9xw.mongodb.net/?retryWrites=true&w=majority").SetServerAPIOptions(serverAPI)
+	client, err := mongo.Connect(context.TODO(), opts)
+	checkErr(err)
+
+	week := r.URL.Query().Get("week")
+	day := r.URL.Query().Get("day")
+	number := r.URL.Query().Get("number")
+	teacher := r.URL.Query().Get("teacher")
+
+	collection := client.Database("endlesssuffering").Collection("schedules")
+
+	var schedules []Schedule
+	cursor, err := collection.Find(context.TODO(), bson.M{
+		"week": week,
+		"day":  day,
+	})
+	checkErr(err)
+
+	err = cursor.All(context.TODO(), &schedules)
+	checkErr(err)
+
+	var room string
+	for _, schedule := range schedules {
+		for _, lesson := range schedule.Lessons {
+			if lesson.Number == number && lesson.Teacher == teacher {
+				room = lesson.Room
+				break
+			}
+		}
+	}
+
+	if room == "" {
+		http.Error(w, "Пара не найдена", http.StatusNotFound)
+		return
+	}
+
+	w.Header().Set("Content-Type", "text/plain")
+	w.Write([]byte(room))
+
+	err = client.Disconnect(context.TODO())
+	checkErr(err)
+}
+
+func getGroupRoom(w http.ResponseWriter, r *http.Request) {
+	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
+	opts := options.Client().ApplyURI("mongodb+srv://admin:9af0m3B7KyRdYdyR@endlesssuffering.skte9xw.mongodb.net/?retryWrites=true&w=majority").SetServerAPIOptions(serverAPI)
+	client, err := mongo.Connect(context.TODO(), opts)
+	checkErr(err)
+
+	week := r.URL.Query().Get("week")
+	day := r.URL.Query().Get("day")
+	number := r.URL.Query().Get("number")
+	group := r.URL.Query().Get("group")
+
+	collection := client.Database("endlesssuffering").Collection("schedules")
+
+	var schedules []Schedule
+	cursor, err := collection.Find(context.TODO(), bson.M{
+		"week": week,
+		"day":  day,
+	})
+	checkErr(err)
+
+	err = cursor.All(context.TODO(), &schedules)
+	checkErr(err)
+
+	var room string
+	for _, schedule := range schedules {
+		if schedule.Group == group {
+			for _, lesson := range schedule.Lessons {
+				if lesson.Number == number {
+					room = lesson.Room
+					break
+				}
+			}
+		}
+	}
+
+	if room == "" {
+		http.Error(w, "Пара не найдена", http.StatusNotFound)
+		return
+	}
+
+	w.Header().Set("Content-Type", "text/plain")
+	w.Write([]byte(room))
+
+	err = client.Disconnect(context.TODO())
 	checkErr(err)
 }
 
@@ -190,5 +287,14 @@ func main() {
 	http.HandleFunc("/api/schedule", handleSchedule)
 	http.HandleFunc("/api/getSchedule", getSchedule)
 	http.HandleFunc("/api/updateComment", updateComment)
+	http.HandleFunc("/api/getTeacherRoom", getTeacherRoom)
+	http.HandleFunc("/api/getGroupRoom", getGroupRoom)
+
+	c := cron.New()
+	c.AddFunc("@weekly", func() {
+		http.Get("http://localhost:8080/api/schedule")
+	})
+	c.Start()
+
 	http.ListenAndServe(":8080", nil)
 }
